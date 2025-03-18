@@ -80,3 +80,81 @@ Registers a new user in the system.
     "password": "password123"
 }
 ```
+
+## User Login Endpoint
+
+### POST `/users/login`
+
+Authenticates an existing user and returns a JWT token.
+
+#### Request Body
+
+```json
+{
+  "email": "string",      // required, must be a valid email format
+  "password": "string"    // required, minimum 6 characters
+}
+```
+
+#### Validation Rules
+
+-   `email` is required and must be a valid email address. See [`isEmail`](https://express-validator.github.io/docs/api/body) in [user.route.js](backend/routes/user.route.js).
+-   `password` is required and must be at least 6 characters long. See [`isLength`](https://express-validator.github.io/docs/api/body) in [user.route.js](backend/routes/user.route.js).
+
+#### Success Response
+
+**Status Code**: 200 OK
+
+```json
+{
+    "user": {
+        "fullname": {
+            "firstname": "string",
+            "lastname": "string"
+        },
+        "email": "string",
+        "_id": "string",
+        "socketID": "string"
+    },
+    "token": "JWT_TOKEN"
+}
+```
+
+#### Error Responses
+
+**Status Code**: 400 Bad Request
+
+*   When validation fails, returns an array of errors.
+
+```json
+{
+    "errors": [
+        {
+            "type": "field",
+            "value": "",
+            "msg": "Error message",
+            "path": "field_name",
+            "location": "body"
+        }
+    ]
+}
+```
+
+**Status Code**: 401 Unauthorized
+
+*   When invalid credentials are provided.
+
+```json
+{
+    "message": "Invalid email or password"
+}
+```
+
+#### Example Request
+
+```json
+{
+    "email": "john.doe@example.com",
+    "password": "password123"
+}
+```
