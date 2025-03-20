@@ -23,7 +23,7 @@ Registers a new user in the system.
 
 -   `fullname.firstname` is required and cannot be empty. See [`body`](https://express-validator.github.io/docs/api/body) in [user.route.js](backend/routes/user.route.js).
 -   `email` is required and must be a valid email address. See [`isEmail`](https://express-validator.github.io/docs/api/validator-chain#isemail) in [user.route.js](backend/routes/user.route.js).
--   `password` is required and must be at least 6 characters long. See [`isLength`](https://express-validator.github.io/docs/api/validator-chain#islength) in [user.route.js](backend/routes/user.route.js).
+-   `password` is required and must be at least 6 characters long. See [`isLength`](https://express-validator.github.io/docs/api/body) in [user.route.js](backend/routes/user.route.js).
 
 #### Success Response
 
@@ -158,3 +158,88 @@ Authenticates an existing user and returns a JWT token.
     "password": "password123"
 }
 ```
+
+## Get User Profile Endpoint
+
+### GET `/users/profile`
+
+Retrieves the authenticated user's profile information.
+
+#### Headers Required
+
+```
+Authorization: Bearer <JWT_TOKEN>
+```
+
+#### Success Response
+
+**Status Code**: 200 OK
+
+```json
+{
+    "fullname": {
+        "firstname": "string",
+        "lastname": "string"
+    },
+    "email": "string",
+    "_id": "string",
+    "socketID": "string"
+}
+```
+
+#### Error Response
+
+**Status Code**: 401 Unauthorized
+
+*   When no token is provided or token is invalid
+
+```json
+{
+    "message": "Authentication required"
+}
+```
+
+## User Logout Endpoint
+
+### GET `/users/logout`
+
+Logs out the current user and invalidates their JWT token.
+
+#### Headers Required
+
+```
+Authorization: Bearer <JWT_TOKEN>
+```
+
+#### Success Response
+
+**Status Code**: 200 OK
+
+```json
+{
+    "message": "Logout successfully"
+}
+```
+
+#### Error Responses
+
+**Status Code**: 401 Unauthorized
+
+*   When no token is provided or token is invalid
+
+```json
+{
+    "message": "Authentication required"
+}
+```
+
+**Status Code**: 500 Internal Server Error
+
+*   When token blacklisting fails
+
+### Notes
+
+*   Both endpoints require authentication via JWT token
+*   The token must be included in the Authorization header using the Bearer scheme
+*   Upon logout, the token is blacklisted and can no longer be used
+*   The server also clears the authentication cookie if present
