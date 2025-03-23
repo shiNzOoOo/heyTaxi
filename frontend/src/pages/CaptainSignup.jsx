@@ -13,9 +13,9 @@ const CaptainSignup = () => {
             e.preventDefault();
             // Handle form submission logic here
             setUserData({
-                fullName :{
-                    firstName: firstName,
-                    lastName: lastName
+                fullname :{
+                    firstname: firstName,
+                    lastname: lastName
                 },
                 email: email,
                 password: password,
@@ -72,7 +72,7 @@ const CaptainSignup = () => {
     
                     <button 
                     className='bg-[#111] text-white mb-2 font-semibold rounded px-4 py-2  w-full text-lg placeholder:text-base'
-                    >Login</button>
+                    >Create Account</button>
     
                 </form >
                  <p className='text-center'>Already a Captain? <Link to='/Captain-Login' className='text-blue-600'>Login Here</Link></p>
