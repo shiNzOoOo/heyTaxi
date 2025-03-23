@@ -7,12 +7,12 @@ const jwt = require('jsonwebtoken');
 
 
 module.exports.authUser = async (req, res, next) => {
-    const token  = req.cookies.token || req.headers.authorization?.split(" ")[ 1 ] ;
+    const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
     if (!token) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
     
-    const isblacklisted = await userModel.findOne({ token  });
+    const isblacklisted = await userModel.findOne({ token : token });
     if (isblacklisted){
         return res.status(401).json({ message: 'Unauthorized' });
     }
