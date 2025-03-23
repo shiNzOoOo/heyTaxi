@@ -22,7 +22,7 @@ Registers a new user in the system.
 #### Validation Rules
 
 -   `fullname.firstname` is required and cannot be empty. See [`body`](https://express-validator.github.io/docs/api/body) in [user.route.js](backend/routes/user.route.js).
--   `email` is required and must be a valid email address. See [`isEmail`](https://express-validator.github.io/docs/api/validator-chain#isemail) in [user.route.js](backend/routes/user.route.js).
+-   `email` is required and must be a valid email address. See [`isEmail`](https://express-validator.github.io/docs/api/body) in [user.route.js](backend/routes/user.route.js).
 -   `password` is required and must be at least 6 characters long. See [`isLength`](https://express-validator.github.io/docs/api/body) in [user.route.js](backend/routes/user.route.js).
 
 #### Success Response
@@ -272,7 +272,7 @@ Registers a new captain in the system.
 #### Validation Rules
 
 -   `fullname.firstname` is required and must be at least 3 characters long. See [`body`](https://express-validator.github.io/docs/api/body) in [captain.route.js](backend/routes/captain.route.js).
--   `email` is required and must be a valid email address. See [`isEmail`](https://express-validator.github.io/docs/api/validator-chain#isemail) in [captain.route.js](backend/routes/captain.route.js).
+-   `email` is required and must be a valid email address. See [`isEmail`](https://express-validator.github.io/docs/api/body) in [captain.route.js](backend/routes/captain.route.js).
 -   `password` is required and must be at least 6 characters long. See [`isLength`](https://express-validator.github.io/docs/api/body) in [captain.route.js](backend/routes/captain.route.js).
 -   `vehicle.color` is required and must be at least 3 characters long. See [`body`](https://express-validator.github.io/docs/api/body) in [captain.route.js](backend/routes/captain.route.js).
 -   `vehicle.plate` is required and must be at least 6 characters long. See [`body`](https://express-validator.github.io/docs/api/body) in [captain.route.js](backend/routes/captain.route.js).
@@ -345,3 +345,178 @@ Registers a new captain in the system.
     }
 }
 ```
+
+## Captain Login Endpoint
+
+### POST `/captains/login`
+
+Authenticates an existing captain and returns a JWT token.
+
+#### Request Body
+
+```json
+{
+  "email": "string",      // required, must be a valid email format
+  "password": "string"    // required, minimum 6 characters
+}
+```
+
+#### Validation Rules
+
+-   `email` is required and must be a valid email address. See [`isEmail`](https://express-validator.github.io/docs/api/body) in [captain.route.js](backend/routes/captain.route.js).
+-   `password` is required and must be at least 6 characters long. See [`isLength`](https://express-validator.github.io/docs/api/body) in [captain.route.js](backend/routes/captain.route.js).
+
+#### Success Response
+
+**Status Code**: 200 OK
+
+```json
+{
+    "captain": {
+        "fullname": {
+            "firstname": "string",
+            "lastname": "string"
+        },
+        "email": "string",
+        "_id": "string",
+        "vehicle": {
+            "plate": "string",
+            "color": "string",
+            "capacity": "number",
+            "vehicleType": "string"
+        }
+    },
+    "token": "JWT_TOKEN"
+}
+```
+
+#### Error Responses
+
+**Status Code**: 400 Bad Request
+
+*   When validation fails, returns an array of errors.
+
+```json
+{
+    "errors": [
+        {
+            "type": "field",
+            "value": "",
+            "msg": "Error message",
+            "path": "field_name",
+            "location": "body"
+        }
+    ]
+}
+```
+
+**Status Code**: 401 Unauthorized
+
+*   When invalid credentials are provided.
+
+```json
+{
+    "message": "Invalid email or password"
+}
+```
+
+#### Example Request
+
+```json
+{
+    "email": "john.doe@example.com",
+    "password": "password123"
+}
+```
+
+## Get Captain Profile Endpoint
+
+### GET `/captains/profile`
+
+Retrieves the authenticated captain's profile information.
+
+#### Headers Required
+
+```
+Authorization: Bearer <JWT_TOKEN>
+```
+
+#### Success Response
+
+**Status Code**: 200 OK
+
+```json
+{
+    "captain": {
+        "fullname": {
+            "firstname": "string",
+            "lastname": "string"
+        },
+        "email": "string",
+        "_id": "string",
+        "vehicle": {
+            "plate": "string",
+            "color": "string",
+            "capacity": "number",
+            "vehicleType": "string"
+        }
+    }
+}
+```
+
+#### Error Response
+
+**Status Code**: 401 Unauthorized
+
+*   When no token is provided or token is invalid
+
+```json
+{
+    "message": "Authentication required"
+}
+```
+
+## Captain Logout Endpoint
+
+### GET `/captains/logout`
+
+Logs out the current captain and invalidates their JWT token.
+
+#### Headers Required
+
+```
+Authorization: Bearer <JWT_TOKEN>
+```
+
+#### Success Response
+
+**Status Code**: 200 OK
+
+```json
+{
+    "message": "Logout successfully"
+}
+```
+
+#### Error Responses
+
+**Status Code**: 401 Unauthorized
+
+*   When no token is provided or token is invalid
+
+```json
+{
+    "message": "Authentication required"
+}
+```
+
+**Status Code**: 500 Internal Server Error
+
+*   When token blacklisting fails
+
+### Notes
+
+*   All captain endpoints require authentication via JWT token
+*   The token must be included in the Authorization header using the Bearer scheme
+*   Upon logout, the token is blacklisted and can no longer be used
+*   The server also clears the authentication cookie if present
