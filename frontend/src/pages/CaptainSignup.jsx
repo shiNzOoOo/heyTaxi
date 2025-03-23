@@ -1,12 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const CaptainSignup = () => {
-    return (
-        <div>
-            <h1>Captain Signup</h1>
-            <p>Welcome to the Captain Signup page!</p>
-        </div>
-    );
+
 };
 
 export default CaptainSignup;

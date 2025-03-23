@@ -1,13 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 
 const Home = () => {
     return (
         <div>
-            <div className='h-screen pt-8 flex justify-between flex-col w-full bg-blue-500'>
-                <img className='w-10'  src="https://taxi-salzburg.at/wp-content/uploads/elementor/thumbs/heytaxi-p6itr3od93fep6b1ac97yhcwyycp7ed66033bjm9qo.png" alt="logo" />
-                <div className='bg-red-100'>
-                    <h2>Get Started with HeyTaxi</h2>
-                    <button>Continue</button>
+            <div className='bg-cover bg-center bg-[url(https://images.unsplash.com/photo-1527603815363-e79385e0747e?q=80&w=1952&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] h-screen pt-8 flex justify-between flex-col w-full bg-blue-500'>
+                <img className='w-16 ml-2 '  src="https://heytaxi.pl/img/hejtaxi.png" alt="logo" />
+                <div className='bg-white pb-7 py-4 px-4' >
+                    <h2  className='text-2xl font-bold'>Get Started with HeyTaxi</h2>
+                    <Link to='/User-Login' className='flex items-center justify-center w-full bg-black text-white py-3  rounded mt-4'>Continue</Link>
                 </div>
             </div>
         </div>
