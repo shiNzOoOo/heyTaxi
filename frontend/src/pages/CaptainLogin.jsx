@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const CaptainLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [CaptainData , setsetCaptainData ] = useState({});
+    const [CaptainData , setCaptainData ] = useState({});
 
        const submitHandler = (e) => { 
            e.preventDefault();
