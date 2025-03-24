@@ -5,7 +5,10 @@ import UserSignup from './pages/UserSignup';
 import UserLogin from './pages/UserLogin';
 import CaptainSignup from './pages/CaptainSignup';
 import CaptainLogin from './pages/CaptainLogin';
-import Home from './pages/Home';
+import UserProtectedWrapper from './pages/UserProtectedWrapper';
+import Home from './pages/home';
+import UserLogout from './pages/UserLogout';
+import CaptainHome from './pages/CaptainHome';
 
 
 
@@ -19,7 +22,21 @@ const app = () => {
         <Route path="/User-Login" element={<UserLogin />} />
         <Route path="/Captain-Signup" element={<CaptainSignup />} />
         <Route path="/Captain-Login" element={<CaptainLogin />} />
-        <Route path='/Home' element={<Home />}></Route>
+        <Route path='/Home' element={
+            <UserProtectedWrapper>
+              <Home />
+            </UserProtectedWrapper>
+        } />
+        <Route path="/user/logout" element={
+          <UserProtectedWrapper>
+            <UserLogout />
+          </UserProtectedWrapper >
+        } />
+        <Route path = '/Captain-home' element={ <CaptainHome />} />
+
+
+
+
       </Routes>
     </div>
   );
