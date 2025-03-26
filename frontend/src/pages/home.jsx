@@ -9,8 +9,10 @@ const Home = () => {
     const [pickup, setPickup] = useState('')
     const [destination, setDestination] = useState('')
     const [panelOpen, setPanelOpen] = useState(false)
+    const vehiclePanelRef = useRef(null)
     const panelRef = useRef(null)
     const panelCloseRef = useRef(null)
+    const [vehiclePanel, setVehiclePanel] = useState(false)
 
     const submitHandler = (e) => {
         e.preventDefault()
@@ -39,6 +41,20 @@ const Home = () => {
             })
         }
     }, [panelOpen])
+
+    useGSAP(function () {
+        if (vehiclePanel) {
+            gsap.to(vehiclePanelRef.current, {
+                transform: 'translateY(0)'
+            })
+        }
+        else {
+            gsap.to(vehiclePanelRef.current, {
+                transform: 'translateY(100%)'
+            })
+
+        }
+    }, [vehiclePanel])
 
     return (
         <div className='h-screen  relative overflow-hidden'>
@@ -74,11 +90,14 @@ const Home = () => {
                     </form>
                 </div>
                 <div ref={panelRef} className='  bg-white h-0'>
-                    <LocationSearchPanel />
+                    <LocationSearchPanel setPanelOpen={setPanelOpen} setVehiclePanel={setVehiclePanel} />
 
                 </div>
             </div>
-            <div className='fixed w-full z-10 bottom-0 px-3 py-6 bg-white'>
+            <div ref={vehiclePanelRef} className='fixed w-full z-10 bottom-0 px-3 py-10 pt-14 bg-white translate-y-full'>
+                <h5 
+                onClick={()=>setVehiclePanel(false)}
+                className='p-1 text-center w-[93%] absolute top-0'><i className="text-3xl text-gray-300 ri-arrow-down-wide-line"></i></h5>
                 <h3 className='text-2xl font-semibold mb-5'>Choose a vehicle</h3>
                 <div className='flex w-full p-3 item-center justify-between border-2 active:border-black rounded-xl mb-2'>
                     <img className='h-14' src="https://www.pngplay.com/wp-content/uploads/8/Uber-PNG-Photos.png" alt="car" />
