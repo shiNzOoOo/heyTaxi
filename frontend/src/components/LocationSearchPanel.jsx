@@ -7,7 +7,7 @@ import React from 'react';
 
 
 
-const LocationSearchPanel = ( {setVehiclePanel, setPanelOpen }) => {
+const LocationSearchPanel = ( props) => {
 
        
 
@@ -23,7 +23,7 @@ const LocationSearchPanel = ( {setVehiclePanel, setPanelOpen }) => {
         <div className="location-search-panel">
             {
                 locations.map(function(location , idx){
-                    return <div key={idx} onClick={()=>{setVehiclePanel(true); setPanelOpen(false)
+                    return <div key={idx} onClick={()=>{props.setVehiclePanel(true); props.setPanelOpen(false)
                     }}
                      className='flex gap-4 border-2 p-3 border-gray-50 active:border-black rounded-xl items-center my-2 justify-start'>
                     <h2 className='bg-[#eee] h-6 w-7 flex item-center justify-center rounded-full'><i className="ri-map-pin-fill"></i></h2>
