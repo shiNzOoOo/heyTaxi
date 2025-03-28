@@ -1,25 +1,24 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 
 const CaptainHome = () => {
     return (
-        <div className="captain-home">
-            <h1>Welcome Captain</h1>
-            <div className="captain-dashboard">
-                {/* Add your captain dashboard content here */}
-                <div className="stats-container">
-                    <div className="stat-box">
-                        <h3>Today's Rides</h3>
-                        <p>0</p>
-                    </div>
-                    <div className="stat-box">
-                        <h3>Total Earnings</h3>
-                        <p>$0.00</p>
-                    </div>
-                </div>
-                <div className="action-buttons">
-                    <button className="primary-btn">Go Online</button>
-                    <button className="secondary-btn">View History</button>
-                </div>
+        <div className='h-screen'>
+            <div className='fixed p-3 top-0 flex  items-center justify-between w-screen'>
+                <img className='w-16' src="https://heytaxi.pl/img/hejtaxi.png" alt="logo" />
+                <Link to='/captains/logout' className=' h-10 w-10 bg-white flex items-center justify-center rounded-full'>
+                <i className="ri-logout-box-r-line"></i>
+                </Link>
+            </div>
+
+
+
+            <div className='h-1/2'>
+                <img className='h-full w-full object-cover' src="https://miro.medium.com/max/1280/0*gwMx05pqII5hbfmX.gif" alt="map" />
+            </div>
+            <div className='h-1/2 p-4 '>
+                
+
             </div>
         </div>
     );
