@@ -8,6 +8,7 @@ import VehiclePanel from '../components/VehiclePanel';
 import ConfirmedRide from '../components/ConfirmedRide';
 import LookingForDriver from '../components/LookingForDriver';
 import WaitingForDriver from '../components/waitingForDriver';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
     const [pickup, setPickup] = useState('')
@@ -113,7 +114,12 @@ const Home = () => {
 
     return (
         <div className='h-screen  relative overflow-hidden'>
-            <img className='w-16 ml-4 mt-4  absolute ' src="https://heytaxi.pl/img/hejtaxi.png" alt="logo" />
+            <div className='fixed p-6 top-0 flex  items-center justify-between w-screen'>
+                <img className='w-16' src="https://heytaxi.pl/img/hejtaxi.png" alt="logo" />
+                <Link to='/user/logout' className=' h-10 w-10 bg-white flex items-center justify-center rounded-full'>
+                <i className="ri-logout-box-r-line"></i>
+                </Link>
+            </div>
             <div className='h-screen w-screen'>
                 {/* for temperory */}
                 <img className='h-full w-full object-cover' src="https://miro.medium.com/max/1280/0*gwMx05pqII5hbfmX.gif" alt="map" />
