@@ -1,15 +1,27 @@
 const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middlewares/auth.middleware');
-const { getCoordinates } = require('../controllers/maps.controller');
+const mapControllers = require('../controllers/maps.controller');
 const {query} = require('express-validator')
 
 
-router.get('get-coordinates',
+router.get('/get-coordinates',
     query('address').isString().isLength({min:3})
-    , authMiddleware.authUser , getCoordinates )
+    , authMiddleware.authUser , mapControllers.getCoordinates )
 
 
+router.get('/get-distance-time', 
+    query('origin').isString().isLength({min:3}),
+    query('destination').isString().isLength({min:3}),
+    authMiddleware.authUser,
+    mapControllers.getDistanceAndTime
+)
+
+router.get('/get-suggestions',
+    query('input').isString().isLength({min:3}),
+    authMiddleware.authUser,
+    mapControllers.getSuggestions
+)
 
 
 
