@@ -11,12 +11,10 @@ module.exports.createRide = async (req, res) => {
 
 
 
-    const { userId , pickup, destination, vehicleType } = req.body;
+    const {  pickup, destination, vehicleType } = req.body;
     
     
     try{
-        console.log(req.body)
-       
         const ride = await rideService.createRide({ user : req.user._id , pickup, destination, vehicleType });
         res.status(201).json(ride);
 
