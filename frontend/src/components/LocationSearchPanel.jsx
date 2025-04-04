@@ -14,7 +14,7 @@ const LocationSearchPanel = ({ suggestions, setVehiclePanel, setPanelOpen, setPi
         
         // Only show vehicle panel if both pickup and destination are selected
         if (activeField === 'destination') {
-            setVehiclePanel(true);
+            // setVehiclePanel(true);
         }
     }
 

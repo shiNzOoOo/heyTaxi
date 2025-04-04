@@ -29,6 +29,7 @@ const Home = () => {
     const [ destinationSuggestions, setDestinationSuggestions ] = useState([])
     const [ activeField, setActiveField ] = useState(null)
     const [ fare, setFare ] = useState({})
+    const [ vehicleType, setVehicleType ] = useState(null)
 
     const submitHandler = (e) => {
         e.preventDefault()
@@ -158,9 +159,28 @@ const Home = () => {
             }
         })
 
+        console.log(response.data)
+
 
         setFare(response.data)
 
+    }
+
+    async function createRide() {
+        setVehiclePanel(false)
+        setConfirmedRidePanel(true)
+
+       const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/create`, {
+            pickup,
+            destination,
+            vehicleType
+        }, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+
+        console.log(response.data)
 
     }
 
@@ -229,13 +249,27 @@ const Home = () => {
             </div>
             <div ref={vehiclePanelRef} className='fixed w-full z-10 bottom-0 px-3 py-10 pt-12 bg-white translate-y-full'>
                     <VehiclePanel fare={fare}
-                    setConfirmedRidePanel={setConfirmedRidePanel} setVehiclePanel={setVehiclePanel} />
+                    selectVehicle={setVehicleType}
+                    setConfirmedRidePanel={setConfirmedRidePanel} setVehiclePanel={setVehiclePanel}
+                     />
             </div>
             <div ref={confirmedRidePanelRef} className='fixed w-full z-10 bottom-0 px-3 py-6 pt-12 bg-white translate-y-full'>
-                    <ConfirmedRide setConfirmedRidePanel={setConfirmedRidePanel} setVehicleFound={setVehicleFound} />
+                    <ConfirmedRide setConfirmedRidePanel={setConfirmedRidePanel} setVehicleFound={setVehicleFound}
+                    createRide={createRide}
+                    pickup={pickup}
+                    destination={destination}
+                    fare={fare}
+                    vehicleType={vehicleType}
+                    />
             </div>
             <div ref={vehicleFoundRef}  className='fixed w-full z-10 bottom-0 px-3 py-6 pt-12 bg-white translate-y-full'>
-                    <LookingForDriver setVehicleFound={setVehicleFound}  />
+                    <LookingForDriver 
+                    createRide={createRide}
+                    pickup={pickup}
+                    destination={destination}
+                    fare={fare}
+                    vehicleType={vehicleType}
+                    setVehicleFound={setVehicleFound}  />
             </div>
             <div  ref={waitingForDriverRef} className='fixed w-full z-10 bottom-0 px-3 py-6 pt-12 bg-white  '>
                     <WaitingForDriver setWaitingForDriver={setWaitingForDriver} waitingForDriver={waitingForDriver} />

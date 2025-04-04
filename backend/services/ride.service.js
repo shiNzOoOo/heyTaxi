@@ -69,7 +69,7 @@ module.exports.createRide = async ({user ,  pickup , destination , vehicleType})
     
     const fare = await getFare(pickup , destination);
 
-    console.log(fare);
+    
 
     const ride =  rideModel.create({
         user,
