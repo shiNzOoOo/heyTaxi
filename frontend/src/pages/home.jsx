@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef,  useEffect , useContext } from 'react';
 import { useState } from 'react';
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
@@ -10,6 +10,8 @@ import ConfirmedRide from '../components/ConfirmedRide';
 import LookingForDriver from '../components/LookingForDriver';
 import WaitingForDriver from '../components/waitingForDriver';
 import { Link } from 'react-router-dom';
+import { SocketContext } from '../context/SocketContext';
+import { UserDataContext } from '../context/userContext';
 
 const Home = () => {
     const [pickup, setPickup] = useState('')
@@ -30,6 +32,19 @@ const Home = () => {
     const [ activeField, setActiveField ] = useState(null)
     const [ fare, setFare ] = useState({})
     const [ vehicleType, setVehicleType ] = useState(null)
+
+
+    const { socket } = useContext(SocketContext)
+    const { user } = useContext(UserDataContext)
+
+    useEffect(() => {
+        socket.emit("join", { userType: "user", userId: user._id })
+    } , [ user ])
+
+    // socket.on('ride-confirmed', ride => {
+    //     setWaitingForDriver(true)
+    // })
+
 
     const submitHandler = (e) => {
         e.preventDefault()
