@@ -1,5 +1,5 @@
-const rideModle = require('../models/ride.model')
 const rideService = require('../services/ride.service');
+const rideModle = require('../models/ride.model')
 const mapService = require('../services/maps.service');
 const {validationResult} = require('express-validator');
 const {sendMessageToSocketId} = require('../socket');
@@ -22,10 +22,11 @@ module.exports.createRide = async (req, res) => {
 
         const pickupCoordinates = await mapService.getAddressCoordinate(pickup);
 
-     
+        
         const captainInRadius = await mapService.getCaptainInTheRadius(pickupCoordinates.ltd , pickupCoordinates.lng , 3); // 5 km radius
 
         console.log(captainInRadius);
+    
 
         ride.otp = ""
 
@@ -72,15 +73,60 @@ module.exports.confirmRide = async (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-
-    console.log(rideId);
+    const { rideId } = req.body;
+    
     try {
-        const ride = await rideService.confirmRide(rideId, req.captain._id);
+        const ride = await rideService.confirmRide({ rideId, captain: req.captain });
 
         sendMessageToSocketId(ride.user.socketId, {
             event: 'ride-confirmed',
             data: ride
         })
+
+
+        return res.status(200).json(ride);
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+}
+
+module.exports.startRide = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    const { rideId, otp } = req.query;
+    
+    try {
+        const ride = await rideService.startRide({ rideId, otp, captain: req.captain });
+
+        sendMessageToSocketId(ride.user.socketId, {
+            event: 'ride-started',
+            data: ride
+        })
+
+        return res.status(200).json(ride);
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+}
+
+module.exports.endRide = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { rideId } = req.body;
+
+    try {
+        const ride = await rideService.endRide({ rideId, captain: req.captain });
+
+        sendMessageToSocketId(ride.user.socketId, {
+            event: 'ride-ended',
+            data: ride
+        })
+
 
 
         return res.status(200).json(ride);

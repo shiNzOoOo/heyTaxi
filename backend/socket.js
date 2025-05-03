@@ -3,6 +3,7 @@ const userModel = require('./models/user.model');
 const captainModel = require('./models/captain.model');
 
 let io;
+const activeConnections = new Map();
 
 function initializeSocket(server) {
     io = socketIo(server, {
@@ -47,6 +48,7 @@ function initializeSocket(server) {
         socket.on('disconnect', () => {
             console.log(`Client disconnected: ${socket.id}`);
         });
+       
     });
 }
 

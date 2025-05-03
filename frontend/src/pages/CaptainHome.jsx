@@ -2,6 +2,7 @@ import React, { useRef, useState , useEffect , useContext} from 'react';
 import { Link } from 'react-router-dom'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
+import axios from 'axios';
 import CaptainsDetails from '../components/CaptainsDetails';
 import RidePopUp from '../components/RidePopUp';
 import ConfirmRidePopUp from '../components/ConfirmRidePopUp';
@@ -97,8 +98,8 @@ const CaptainHome = () => {
             }
         })
 
-        setRidePopupPanel(false)
-        setConfirmRidePopupPanel(true)
+        setRidePopUpPanel(false)
+        setConfirmRidePopUpPanel(true)
 
     }
 
@@ -132,7 +133,9 @@ const CaptainHome = () => {
             </div>
 
             <div ref={ConfirmRidePopUpPanelRef}  className='fixed w-full h-screen z-10 bottom-0 px-3 py-10 pt-12 bg-white  translate-y-full'>
-                <ConfirmRidePopUp setConfirmRidePopUpPanel={setConfirmRidePopUpPanel} setRidePopUpPanel={setRidePopUpPanel} />
+                <ConfirmRidePopUp setConfirmRidePopUpPanel={setConfirmRidePopUpPanel}
+                ride={ride}
+                setRidePopUpPanel={setRidePopUpPanel} />
                 
                     
             </div>
