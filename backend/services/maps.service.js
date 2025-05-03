@@ -103,8 +103,7 @@ module.exports.getCaptainInTheRadius = async (ltd , lng , radius) => {
         throw new Error('ltd , lng and radius are required');
     }
     
-    const cap = await captainModel.find();
-    console.log(cap);
+   
 
 
     try {
@@ -124,7 +123,4 @@ module.exports.getCaptainInTheRadius = async (ltd , lng , radius) => {
         throw error;
     }
 
-
-
 }
-

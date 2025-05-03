@@ -15,7 +15,7 @@ const ConfirmRidePopUp = (props) => {
         const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/start-ride`, {
             params: {
                 rideId: props.ride._id,
-                otp: otp
+                otp: OTP
             },
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -23,8 +23,8 @@ const ConfirmRidePopUp = (props) => {
         })
 
         if (response.status === 200) {
-            props.setConfirmRidePopupPanel(false)
-            props.setRidePopupPanel(false)
+            props.setConfirmRidePopUpPanel(false)
+            props.setRidePopUpPanel(false)
             navigate('/captain-riding', { state: { ride: props.ride } })
         }
 
@@ -35,8 +35,8 @@ const ConfirmRidePopUp = (props) => {
         <div >
             <h5
                 onClick={() => {
-                    props.setConfirmRidePopUpPanel(false)
-                }}
+                    props.setRidePopUpPanel(false)          
+                      }}
                 className='p-1 text-center w-[93%] absolute top-0'><i className="text-3xl text-gray-300 ri-arrow-down-wide-line"></i></h5>
             <h3 className='text-2xl font-semibold mb-5'>Confirm To Start</h3>
             <div className='flex items-center justify-between p-2  bg-yellow-400 rounded-lg mt-4'>
