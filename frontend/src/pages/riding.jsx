@@ -59,7 +59,11 @@ const Riding = () => {
 
 
                 </div>
-                <button className='w-full bg-green-600 text-white font-semibold p-2 mt-7 rounded-lg'>Make a Payment</button>
+                <button 
+                onClick={()=>
+                    navigate('/payment', { state: { ride } })
+                }
+                className='w-full bg-green-600 text-white font-semibold p-2 mt-7 rounded-lg'>Make a Payment</button>
             </div>
         </div>
     )

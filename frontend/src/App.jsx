@@ -13,6 +13,7 @@ import CaptainProtectWrapper from './pages/CaptainProtectedWrapper';
 import CaptainLogout from './pages/CaptainLogout';
 import Riding from './pages/riding';
 import CaptainRiding from './pages/CaptainRiding';
+import Payment from './pages/payment';
 
 
 
@@ -49,6 +50,8 @@ const app = () => {
             <CaptainLogout />
           </CaptainProtectWrapper>
         } />
+
+        <Route path="/payment" element={<Payment/>} />
 
 
 
